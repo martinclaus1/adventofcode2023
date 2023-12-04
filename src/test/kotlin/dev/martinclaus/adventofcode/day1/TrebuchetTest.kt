@@ -8,11 +8,11 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 import kotlin.test.assertEquals
 
-class PuzzleCalibratorTest {
-    private val calibrator = PuzzleCalibrator()
+class TrebuchetTest {
+    private val calibrator = Trebuchet()
 
     @ParameterizedTest
-    @ArgumentsSource(ArgumentProvider::class)
+    @ArgumentsSource(CalibrationTestProvider::class)
     fun `check that calibration works`(input: String, expected: Int) {
         val result = calibrator.calibrate(input)
 
@@ -20,7 +20,7 @@ class PuzzleCalibratorTest {
     }
 }
 
-class ArgumentProvider : ArgumentsProvider {
+class CalibrationTestProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
         return Stream.of(
             getTestCase(
