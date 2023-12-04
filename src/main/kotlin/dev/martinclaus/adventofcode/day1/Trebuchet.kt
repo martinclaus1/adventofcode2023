@@ -1,9 +1,11 @@
 package dev.martinclaus.adventofcode.day1
 
+import dev.martinclaus.adventofcode.AdventOfCodeTask
+
 /**
  * @see <a href="https://adventofcode.com/2023/day/1">Advent of Code 2023 Day 1</a>
  */
-class Trebuchet {
+class Trebuchet: AdventOfCodeTask {
     private val numbers = mapOf(
         "one" to 1,
         "two" to 2,
@@ -22,6 +24,12 @@ class Trebuchet {
             val lastDigit = getFirstDigit(replaceFromEnd(input).reversed()).ifEmpty { "0" }
             (firstDigit + lastDigit).toInt()
         }
+    }
+
+    override fun solve() {
+        val input = this::class.java.classLoader.getResource("calibration-puzzle.txt")?.readText()
+        println("Day 1:")
+        println("\t Part II: What is the sum of all of the calibration values? ${calibrate(input.orEmpty())}")
     }
 
     private fun getFirstDigit(line: String): String {

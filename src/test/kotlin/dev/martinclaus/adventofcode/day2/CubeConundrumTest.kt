@@ -49,7 +49,7 @@ class CubeConundrumTest {
 
     @Test
     fun `check that cube conundrum will be solved`() {
-        val result = validator.solve(INPUT, BAG)
+        val result = validator.getSumOfPossibleGames(INPUT, BAG)
 
         assertEquals(8, result)
     }
