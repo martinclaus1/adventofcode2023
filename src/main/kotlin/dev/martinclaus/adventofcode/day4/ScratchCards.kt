@@ -9,7 +9,7 @@ import kotlin.math.pow
 class ScratchCards : AdventOfCodeTask {
     override fun solve() {
         val input = this::class.java.classLoader.getResource("scratchcards.txt")?.readText()
-        println("Day 4:")
+        println("Day 4: Scratchcards")
         println("\tPart I: How many points are they worth in total? ${getPoints(input.orEmpty())}")
         println("\tPart II: How many total scratchcards do you end up with? ${getScratchCardTotal(input.orEmpty())}")
     }

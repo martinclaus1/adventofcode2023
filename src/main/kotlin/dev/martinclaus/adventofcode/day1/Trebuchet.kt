@@ -28,7 +28,7 @@ class Trebuchet: AdventOfCodeTask {
 
     override fun solve() {
         val input = this::class.java.classLoader.getResource("calibration-puzzle.txt")?.readText()
-        println("Day 1:")
+        println("Day 1: Trebuchet")
         println("\t Part II: What is the sum of all of the calibration values? ${calibrate(input.orEmpty())}")
     }
 

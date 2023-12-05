@@ -12,7 +12,7 @@ class GearRatios: AdventOfCodeTask {
 
     override fun solve() {
         val schematic = this::class.java.classLoader.getResource("engine-schematic.txt")?.readText().orEmpty()
-        println("Day 3:")
+        println("Day 3: Gear Ratios")
         println("\tPart I: What is the sum of all of the part numbers in the engine schematic? ${sumAllPartNumbers(schematic)}")
         println("\tPart II: What is the sum of all of the gear ratios in your engine schematic? ${sumGears(schematic)}")
     }

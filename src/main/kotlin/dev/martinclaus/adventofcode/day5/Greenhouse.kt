@@ -5,102 +5,92 @@ import dev.martinclaus.adventofcode.AdventOfCodeTask
 class Greenhouse : AdventOfCodeTask {
     override fun solve() {
         val input = this::class.java.classLoader.getResource("almanac.txt")?.readText().orEmpty()
-        println("Day 5: Greenhouse")
+        println("Day 5: If You Give A Seed A Fertilizer")
         println(
             "\tPart I: What is the lowest location number that corresponds to any of the initial seed numbers? ${
-                parseAlmanacWithSeeds(
-                    input
-                )
+                parseAlmanacWithSeeds(input)
             }"
         )
         println(
             "\tPart II: What is the lowest location number that corresponds to any of the initial seed numbers (listed in ranges)? ${
-                parseAlmanacWithSeedRanges(
-                    input
-                )
+                parseAlmanacWithSeedRanges(input)
             }"
         )
     }
 
     fun parseAlmanacWithSeeds(input: String): Long {
-        val seeds = input.substringAfter("seeds:").substringBefore("\n").trim().split(" ").map { it.toLong() }
-        val seedsToSoil = input.parseMap("seed-to-soil map:")
-        val soilToFertilizer = input.parseMap("soil-to-fertilizer map:")
-        val fertilizerToWater = input.parseMap("fertilizer-to-water map:")
-        val waterToLight = input.parseMap("water-to-light map:")
-        val lightToTemperature = input.parseMap("light-to-temperature map:")
-        val temperatureToHumidity = input.parseMap("temperature-to-humidity map:")
-        val humidityToLocation = input.parseMap("humidity-to-location map:")
-        val maps = listOf(
-            seedsToSoil,
-            soilToFertilizer,
-            fertilizerToWater,
-            waterToLight,
-            lightToTemperature,
-            temperatureToHumidity,
-            humidityToLocation
-        )
-
-        val min = seeds.minOfOrNull {
-            var value = it
-            for (map in maps) {
-                value = getDestination(map, value)
-            }
-            value
-        }
-
-        return min ?: 0
+        val (seeds, mappings) = parse(input, ::parseSeeds)
+        return seeds.minOf { it.minOf { seed -> mappings.fold(seed) { acc, map -> map.lookup(acc) } } }
     }
 
     fun parseAlmanacWithSeedRanges(input: String): Long {
-        val seeds =
-            input.substringAfter("seeds:").substringBefore("\n").trim().split(" ").map { it.toLong() }.chunked(2)
-                .map { (start, range) ->
-                    (start..<start + range)
-                }
-        val seedsToSoil = input.parseMap("seed-to-soil map:")
-        val soilToFertilizer = input.parseMap("soil-to-fertilizer map:")
-        val fertilizerToWater = input.parseMap("fertilizer-to-water map:")
-        val waterToLight = input.parseMap("water-to-light map:")
-        val lightToTemperature = input.parseMap("light-to-temperature map:")
-        val temperatureToHumidity = input.parseMap("temperature-to-humidity map:")
-        val humidityToLocation = input.parseMap("humidity-to-location map:")
-        val maps = listOf(
-            seedsToSoil,
-            soilToFertilizer,
-            fertilizerToWater,
-            waterToLight,
-            lightToTemperature,
-            temperatureToHumidity,
-            humidityToLocation
-        )
+        val (seeds, mappings) = parse(input, ::parseSeedRanges)
+        val reversedMappings = mappings.reversed()
 
-        val min = seeds.minOfOrNull { range ->
-            println(range)
-            range.minOf {
-                var value = it
-                for (map in maps) {
-                    value = getDestination(map, value)
-                }
-                value
-            }
-        }
-
-        return min ?: 0
+        return generateSequence(0L) { it + 1 }.filter { location ->
+            val seed = reversedMappings.fold(location) { acc, map -> map.reverseLookup(acc) }
+            seeds.any { seed in it }
+        }.first()
     }
 
-    private fun getDestination(map: List<List<Long>>, value: Long): Long {
-        for ((destination, source, range) in map) {
-            if (value in source..<source + range) {
-                return destination - source + value
-            }
-        }
-        return value
-    }
-
-    private fun String.parseMap(delimiter: String) =
-        substringAfter(delimiter).substringBefore("\n\n")
+    private fun parse(input: String, seedParser: (String) -> List<LongRange>): Pair<List<LongRange>, List<Mapping>> {
+        val (seedsString, rawMappings) = input.trim().split('\n', limit=2)
+        val seeds = seedsString
+            .substringAfter(":")
             .trim()
-            .split("\n")
-            .map { row -> row.trim().split(" ").map { entry -> entry.toLong() } }
+            .let(seedParser)
+        val mappings = rawMappings.trim().split("\n\n").map(Mapping::invoke)
+
+        return seeds to mappings
+    }
+
+    private fun parseSeeds(input: String): List<LongRange> =
+        input.split(' ').map { it.toLong()..it.toLong() }
+
+    private fun parseSeedRanges(input: String): List<LongRange> =
+        input
+            .split(' ')
+            .map(String::toLong)
+            .chunked(2)
+            .map { (lower, length) -> lower..(lower + length) }
+
+}
+
+private data class Item(val sourceStart: Long, val destinationStart: Long, val length: Long) {
+    private val sourceRange = sourceStart..(sourceStart + length)
+    private val destinationRange = destinationStart..(destinationStart + length)
+
+    fun lookup(source: Long) =
+        if (source in sourceRange) {
+            destinationStart + (source - sourceStart)
+        } else {
+            null
+        }
+
+    fun reverseLookup(destination: Long) =
+        if (destination in destinationRange) {
+            sourceStart + (destination - destinationStart)
+        } else {
+            null
+        }
+
+    companion object {
+        operator fun invoke(input: String): Item {
+            val (destinationStart, sourceStart, length) = input.trim().split(" ").map(String::toLong)
+            return Item(sourceStart, destinationStart, length)
+        }
+    }
+}
+
+private data class Mapping(val entries: List<Item>) {
+    fun lookup(source: Long): Long =
+        entries.firstNotNullOfOrNull { it.lookup(source) } ?: source
+
+    fun reverseLookup(destination: Long): Long =
+        entries.firstNotNullOfOrNull { it.reverseLookup(destination) } ?: destination
+
+    companion object {
+        operator fun invoke(input: String): Mapping =
+            Mapping(input.trim().lines().drop(1).map(Item::invoke))
+    }
 }

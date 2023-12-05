@@ -26,7 +26,7 @@ class CubeConundrum: AdventOfCodeTask {
 
     override fun solve() {
         val input = this::class.java.classLoader.getResource("cube-conundrums.txt")?.readText()
-        println("Day 2:")
+        println("Day 2: Cube Conundrum")
         println("\tPart I: What is the sum of the IDs of those games? ${getSumOfPossibleGames(input.orEmpty(), ConundrumSet(12, 13, 14))}")
         println("\tPart II: What is the sum of the power of these sets? ${calculatePower(input.orEmpty())}")
     }
