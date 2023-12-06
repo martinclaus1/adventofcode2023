@@ -19,7 +19,7 @@ fun main() {
  */
 class GearRatios {
     private val numberPattern = "\\d+".toRegex().toPattern()
-    private val charPattern = "[^\\.0-9]".toRegex().toPattern()
+    private val charPattern = "[^.0-9]".toRegex().toPattern()
     private val asteriskPattern = "\\*".toRegex().toPattern()
 
     fun partI(schematic: String): Int {
