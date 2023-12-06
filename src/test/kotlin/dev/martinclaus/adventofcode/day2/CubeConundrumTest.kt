@@ -49,14 +49,14 @@ class CubeConundrumTest {
 
     @Test
     fun `check that cube conundrum will be solved`() {
-        val result = validator.getSumOfPossibleGames(INPUT, BAG)
+        val result = validator.partI(INPUT, BAG)
 
         assertEquals(8, result)
     }
 
     @Test
     fun `check that power will be calculated`() {
-        val result = validator.calculatePower(INPUT)
+        val result = validator.partII(INPUT)
 
         assertEquals(2286, result)
     }

@@ -19,7 +19,7 @@ class GearRatiosTest {
             .664.598..
         """.trimIndent()
 
-        val result = GearRatios().sumAllPartNumbers(input)
+        val result = GearRatios().partI(input)
 
         assertEquals(4361, result)
     }
@@ -33,7 +33,7 @@ class GearRatiosTest {
             .......15.....
         """.trimIndent()
 
-        val result = GearRatios().sumGears(input)
+        val result = GearRatios().partII(input)
 
         assertEquals(442, result)
     }

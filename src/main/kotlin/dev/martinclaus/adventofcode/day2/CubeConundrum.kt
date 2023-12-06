@@ -1,15 +1,28 @@
 package dev.martinclaus.adventofcode.day2
 
-import dev.martinclaus.adventofcode.AdventOfCodeTask
 import kotlin.math.max
+
+fun main() {
+    val cubeConundrum = CubeConundrum()
+    val input = cubeConundrum::class.java.classLoader.getResource("cube-conundrums.txt")?.readText()
+    val answer1 = cubeConundrum.partI(input.orEmpty(), ConundrumSet(12, 13, 14))
+    val answer2 = cubeConundrum.partII(input.orEmpty())
+
+    check(answer1 == 2879)
+    check(answer2 == 65122)
+
+    println("Day 2: Cube Conundrum")
+    println("Part I: What is the sum of the IDs of those games? $answer1")
+    println("Part II: What is the sum of the power of these sets? $answer2")
+}
 
 /**
  * @see <a href="https://adventofcode.com/2023/day/2">Advent of Code 2023 Day 2</a>
  */
-class CubeConundrum: AdventOfCodeTask {
+class CubeConundrum {
     fun parse(conundrums: String) = conundrums.lines().map { parseConundrum(it) }
 
-    fun getSumOfPossibleGames(conundrums: String, boxes: ConundrumSet): Int {
+    fun partI(conundrums: String, boxes: ConundrumSet): Int {
         val parsedConundrums = parse(conundrums)
         return parsedConundrums.filter { validate(it.subsets, boxes) }.sumOf { it.id }
     }
@@ -19,16 +32,9 @@ class CubeConundrum: AdventOfCodeTask {
             minimalSet.red <= boxes.red && minimalSet.green <= boxes.green && minimalSet.blue <= boxes.blue
         }
 
-    fun calculatePower(conundrums: String): Int = parse(conundrums).sumOf {
+    fun partII(conundrums: String): Int = parse(conundrums).sumOf {
         val set = calculateMinimalSet(it.subsets)
         set.red * set.blue * set.green
-    }
-
-    override fun solve() {
-        val input = this::class.java.classLoader.getResource("cube-conundrums.txt")?.readText()
-        println("Day 2: Cube Conundrum")
-        println("\tPart I: What is the sum of the IDs of those games? ${getSumOfPossibleGames(input.orEmpty(), ConundrumSet(12, 13, 14))}")
-        println("\tPart II: What is the sum of the power of these sets? ${calculatePower(input.orEmpty())}")
     }
 
     private fun parseConundrum(conundrum: String): Conundrum {

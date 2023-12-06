@@ -1,29 +1,29 @@
 package dev.martinclaus.adventofcode.day5
 
-import dev.martinclaus.adventofcode.AdventOfCodeTask
+fun main() {
+    val greenhouse = Greenhouse()
+    val input = greenhouse::class.java.classLoader.getResource("almanac.txt")?.readText().orEmpty()
+    val answer1 = greenhouse.partI(input)
+    val answer2 = greenhouse.partII(input)
 
-class Greenhouse : AdventOfCodeTask {
-    override fun solve() {
-        val input = this::class.java.classLoader.getResource("almanac.txt")?.readText().orEmpty()
-        println("Day 5: If You Give A Seed A Fertilizer")
-        println(
-            "\tPart I: What is the lowest location number that corresponds to any of the initial seed numbers? ${
-                parseAlmanacWithSeeds(input)
-            }"
-        )
-        println(
-            "\tPart II: What is the lowest location number that corresponds to any of the initial seed numbers (listed in ranges)? ${
-                parseAlmanacWithSeedRanges(input)
-            }"
-        )
-    }
+    check(answer1 == 226172555L)
+    check(answer2 == 47909639L)
 
-    fun parseAlmanacWithSeeds(input: String): Long {
+    println("Day 5: If You Give A Seed A Fertilizer")
+    println("Part I: What is the lowest location number that corresponds to any of the initial seed numbers? $answer1")
+    println("Part II: What is the lowest location number that corresponds to any of the initial seed numbers (listed in ranges)? $answer2")
+}
+
+/**
+ * @see <a href="https://adventofcode.com/2023/day/5">Advent of Code 2023 Day 5</a>
+ */
+class Greenhouse {
+    fun partI(input: String): Long {
         val (seeds, mappings) = parse(input, ::parseSeeds)
         return seeds.minOf { it.minOf { seed -> mappings.fold(seed) { acc, map -> map.lookup(acc) } } }
     }
 
-    fun parseAlmanacWithSeedRanges(input: String): Long {
+    fun partII(input: String): Long {
         val (seeds, mappings) = parse(input, ::parseSeedRanges)
         val reversedMappings = mappings.reversed()
 
@@ -34,7 +34,7 @@ class Greenhouse : AdventOfCodeTask {
     }
 
     private fun parse(input: String, seedParser: (String) -> List<LongRange>): Pair<List<LongRange>, List<Mapping>> {
-        val (seedsString, rawMappings) = input.trim().split('\n', limit=2)
+        val (seedsString, rawMappings) = input.trim().split('\n', limit = 2)
         val seeds = seedsString
             .substringAfter(":")
             .trim()

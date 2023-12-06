@@ -1,20 +1,27 @@
 package dev.martinclaus.adventofcode.day6
 
-import dev.martinclaus.adventofcode.AdventOfCodeTask
-
-class BoatRace : AdventOfCodeTask {
-    private val pattern = "\\d+".toRegex().toPattern()
-    private val input = """
+fun main() {
+    val input = """
         Time:        35     69     68     87
         Distance:   213   1168   1086   1248
     """.trimIndent()
+    val boatRace = BoatRace()
+    val answer1 = boatRace.partI(input)
+    val answer2 = boatRace.partII(input)
 
+    check(answer1 == 170000)
+    check(answer2 == 20537782)
 
-    override fun solve() {
-        println("Day 6: Wait For It")
-        println("\nPart I: What do you get if you multiply these numbers together? ${partI(input)}")
-        println("\nPart II: How many ways can you beat the record in this one much longer race? ${partII(input)}")
-    }
+    println("Day 6: Wait For It")
+    println("Part I: What do you get if you multiply these numbers together? $answer1")
+    println("Part II: How many ways can you beat the record in this one much longer race? $answer2")
+}
+
+/**
+ * @see <a href="https://adventofcode.com/2023/day/6">Advent of Code 2023 Day 6</a>
+ */
+class BoatRace {
+    private val pattern = "\\d+".toRegex().toPattern()
 
     fun partI(input: String): Int {
         return calculateRacePossibilities(input, ::getRacesData).reduce(Int::times)

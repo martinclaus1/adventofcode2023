@@ -15,14 +15,14 @@ class ScratchCardsTest {
 
     @Test
     fun `check that sum of scratchcards is correct`() {
-        val result = ScratchCards().getPoints(input)
+        val result = ScratchCards().partI(input)
 
         assertEquals(13, result)
     }
 
     @Test
     fun `check that sum of total scratchcards is correct`() {
-        val result = ScratchCards().getScratchCardTotal(input)
+        val result = ScratchCards().partII(input)
 
         assertEquals(30, result)
     }

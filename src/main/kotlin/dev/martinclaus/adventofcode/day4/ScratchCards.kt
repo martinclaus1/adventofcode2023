@@ -1,20 +1,26 @@
 package dev.martinclaus.adventofcode.day4
 
-import dev.martinclaus.adventofcode.AdventOfCodeTask
 import kotlin.math.pow
+
+fun main() {
+    val scratchCards = ScratchCards()
+    val input = scratchCards::class.java.classLoader.getResource("scratchcards.txt")?.readText()
+    val answer1 = scratchCards.partI(input.orEmpty())
+    val answer2 = scratchCards.partII(input.orEmpty())
+
+    check(answer1 == 23750)
+    check(answer2 == 13261850)
+
+    println("Day 4: Scratchcards")
+    println("Part I: How many points are they worth in total? $answer1")
+    println("Part II: How many total scratchcards do you end up with? $answer2")
+}
 
 /**
  * @see <a href="https://adventofcode.com/2023/day/4">Advent of Code 2023 Day 4</a>
  */
-class ScratchCards : AdventOfCodeTask {
-    override fun solve() {
-        val input = this::class.java.classLoader.getResource("scratchcards.txt")?.readText()
-        println("Day 4: Scratchcards")
-        println("\tPart I: How many points are they worth in total? ${getPoints(input.orEmpty())}")
-        println("\tPart II: How many total scratchcards do you end up with? ${getScratchCardTotal(input.orEmpty())}")
-    }
-
-    fun getPoints(scratchCards: String): Int {
+class ScratchCards {
+    fun partI(scratchCards: String): Int {
         val lines = scratchCards.lines()
         return lines.sumOf { line ->
             val matches = getMatches(line)
@@ -22,7 +28,7 @@ class ScratchCards : AdventOfCodeTask {
         }
     }
 
-    fun getScratchCardTotal(scratchCards: String): Int {
+    fun partII(scratchCards: String): Int {
         val lines = scratchCards.lines()
         val cardInstances = (1..lines.size).associateWith { 1 }.toMutableMap()
 

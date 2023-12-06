@@ -1,23 +1,28 @@
 package dev.martinclaus.adventofcode.day3
 
-import dev.martinclaus.adventofcode.AdventOfCodeTask
+fun main() {
+    val gearRatios = GearRatios()
+    val input = gearRatios::class.java.classLoader.getResource("engine-schematic.txt")?.readText()
+    val answer1 = gearRatios.partI(input.orEmpty())
+    val answer2 = gearRatios.partII(input.orEmpty())
+
+    check(answer1 == 550934)
+    check(answer2 == 81997870)
+
+    println("Day 3: Gear Ratios")
+    println("Part I: What is the sum of the part numbers? $answer1")
+    println("Part II: What is the sum of the gears? $answer2")
+}
 
 /**
  * @see <a href="https://adventofcode.com/2023/day/3">Advent of Code 2023 Day 3</a>
  */
-class GearRatios: AdventOfCodeTask {
+class GearRatios {
     private val numberPattern = "\\d+".toRegex().toPattern()
     private val charPattern = "[^\\.0-9]".toRegex().toPattern()
     private val asteriskPattern = "\\*".toRegex().toPattern()
 
-    override fun solve() {
-        val schematic = this::class.java.classLoader.getResource("engine-schematic.txt")?.readText().orEmpty()
-        println("Day 3: Gear Ratios")
-        println("\tPart I: What is the sum of all of the part numbers in the engine schematic? ${sumAllPartNumbers(schematic)}")
-        println("\tPart II: What is the sum of all of the gear ratios in your engine schematic? ${sumGears(schematic)}")
-    }
-
-    fun sumAllPartNumbers(schematic: String): Int {
+    fun partI(schematic: String): Int {
         val lines = schematic.lines()
         val numbers = getNumbers(lines)
         val chars = getCharacters(lines)
@@ -36,7 +41,7 @@ class GearRatios: AdventOfCodeTask {
         return result
     }
 
-    fun sumGears(schematic: String): Int {
+    fun partII(schematic: String): Int {
         val lines = schematic.lines()
         val numbers = getNumbers(lines)
         val asterisks = lines.map { line ->

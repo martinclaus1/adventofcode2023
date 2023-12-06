@@ -14,7 +14,7 @@ class TrebuchetTest {
     @ParameterizedTest
     @ArgumentsSource(CalibrationTestProvider::class)
     fun `check that calibration works`(input: String, expected: Int) {
-        val result = calibrator.calibrate(input)
+        val result = calibrator.partII(input)
 
         assertEquals(expected, result)
     }

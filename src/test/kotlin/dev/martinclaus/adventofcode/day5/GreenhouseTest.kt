@@ -43,14 +43,14 @@ class GreenhouseTest {
 
     @Test
     fun `check that almanac is parsed correctly`() {
-        val result = greenhouse.parseAlmanacWithSeeds(input)
+        val result = greenhouse.partI(input)
 
         assertEquals(35, result)
     }
 
     @Test
     fun `check that almanac with seed ranges is parsed correctly`() {
-        val result = greenhouse.parseAlmanacWithSeedRanges(input)
+        val result = greenhouse.partII(input)
 
         assertEquals(46, result)
     }
