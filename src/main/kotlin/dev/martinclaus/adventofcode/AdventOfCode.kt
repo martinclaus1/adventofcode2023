@@ -5,6 +5,7 @@ import dev.martinclaus.adventofcode.day2.CubeConundrum
 import dev.martinclaus.adventofcode.day3.GearRatios
 import dev.martinclaus.adventofcode.day4.ScratchCards
 import dev.martinclaus.adventofcode.day5.Greenhouse
+import dev.martinclaus.adventofcode.day6.BoatRace
 
 fun main() {
     Trebuchet().solve()
@@ -12,4 +13,5 @@ fun main() {
     GearRatios().solve()
     ScratchCards().solve()
     Greenhouse().solve()
+    BoatRace().solve()
 }
