@@ -1,36 +1,28 @@
 package dev.martinclaus.adventofcode.day5
 
-import dev.martinclaus.adventofcode.readText
-import kotlin.test.assertEquals
+import dev.martinclaus.adventofcode.printSolution
+import dev.martinclaus.adventofcode.readLines
 
 /**
  * @see <a href="https://adventofcode.com/2023/day/5">Advent of Code 2023 Day 5</a>
  */
 fun main() {
-    val testInput = readText("almanac-test.txt")
-    val input = readText("almanac.txt")
-
-    assertEquals(35, partI(testInput))
-    val answer1 = partI(input)
-    assertEquals(226172555L, answer1)
-
-    println("Day 5: If You Give A Seed A Fertilizer")
-    println("Part I: What is the lowest location number that corresponds to any of the initial seed numbers? $answer1")
-
-    assertEquals(46, partII(testInput))
-    val answer2 = partII(input)
-    assertEquals(47909639L, answer2)
-
-    println("Part II: What is the lowest location number that corresponds to any of the initial seed numbers (listed in ranges)? $answer2")
+    val input = "almanac.txt".readLines()
+    printSolution(
+        5,
+        "If You Give A Seed A Fertilizer",
+        "What is the lowest location number that corresponds to any of the initial seed numbers? ${partI(input)}",
+        "What is the lowest location number that corresponds to any of the initial seed numbers (listed in ranges)? ${partII(input)}",
+    )
 }
 
-private fun partI(input: String): Long {
-    val (seeds, mappings) = parse(input, ::parseSeeds)
+fun partI(lines: List<String>): Long {
+    val (seeds, mappings) = parse(lines, ::parseSeeds)
     return seeds.minOf { it.minOf { seed -> mappings.fold(seed) { acc, map -> map.lookup(acc) } } }
 }
 
-private fun partII(input: String): Long {
-    val (seeds, mappings) = parse(input, ::parseSeedRanges)
+fun partII(lines: List<String>): Long {
+    val (seeds, mappings) = parse(lines, ::parseSeedRanges)
     val reversedMappings = mappings.reversed()
 
     return generateSequence(0L) { it + 1 }.filter { location ->
@@ -39,13 +31,12 @@ private fun partII(input: String): Long {
     }.first()
 }
 
-private fun parse(input: String, seedParser: (String) -> List<LongRange>): Pair<List<LongRange>, List<Mapping>> {
-    val (seedsString, rawMappings) = input.trim().split('\n', limit = 2)
-    val seeds = seedsString
+private fun parse(lines: List<String>, seedParser: (String) -> List<LongRange>): Pair<List<LongRange>, List<Mapping>> {
+    val seeds = lines.first()
         .substringAfter(":")
         .trim()
         .let(seedParser)
-    val mappings = rawMappings.trim().split("\n\n").map(Mapping::invoke)
+    val mappings = lines.drop(2).joinToString("\n").split("\n\n").map(Mapping::invoke)
 
     return seeds to mappings
 }
