@@ -1,3 +1,5 @@
+package dev.martinclaus.adventofcode.day7
+
 import dev.martinclaus.adventofcode.readText
 import kotlin.test.assertEquals
 
@@ -40,7 +42,7 @@ private fun partI(input: String): Int {
     return hands.mapIndexed { index, hand -> (index + 1) * hand.bid }.sum()
 }
 
-private fun partII(input: String): Int {
+fun partII(input: String): Int {
     val hands = getHands(input, cards2, ::findBestType).sorted().reversed()
     return hands.mapIndexed { index, hand -> (index + 1) * hand.bid }.sum()
 }

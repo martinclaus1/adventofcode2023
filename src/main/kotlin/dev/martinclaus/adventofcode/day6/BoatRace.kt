@@ -1,3 +1,5 @@
+package dev.martinclaus.adventofcode.day6
+
 import kotlin.test.assertEquals
 
 /**
@@ -34,7 +36,7 @@ private fun partI(input: String): Int {
     return calculateRacePossibilities(input, ::getRacesData).reduce(Int::times)
 }
 
-private fun partII(input: String): Int {
+fun partII(input: String): Int {
     return calculateRacePossibilities(input, ::getRacesDataAsOne).first()
 }
 
