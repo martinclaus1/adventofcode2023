@@ -1,5 +1,6 @@
 package dev.martinclaus.adventofcode.day8
 
+import dev.martinclaus.adventofcode.printSolution
 import dev.martinclaus.adventofcode.readLines
 
 /**
@@ -7,10 +8,12 @@ import dev.martinclaus.adventofcode.readLines
  */
 fun main() {
     val input = "haunted-wasteland.txt".readLines()
-
-    println("Day 8: Haunted Wasteland")
-    println("Part I: How many steps are required to reach ZZZ? ${partI(input)}")
-    println("Part II: How many steps does it take before you're only on nodes that end with Z? ${partII(input)}")
+    printSolution(
+        8,
+        "Haunted Wasteland",
+        "How many steps are required to reach ZZZ? ${partI(input)}",
+        "How many steps does it take before you're only on nodes that end with Z? ${partII(input)}",
+    )
 }
 
 

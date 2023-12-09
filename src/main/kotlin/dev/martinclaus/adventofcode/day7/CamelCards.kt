@@ -1,5 +1,6 @@
 package dev.martinclaus.adventofcode.day7
 
+import dev.martinclaus.adventofcode.printSolution
 import dev.martinclaus.adventofcode.readLines
 import dev.martinclaus.adventofcode.readText
 
@@ -8,10 +9,12 @@ import dev.martinclaus.adventofcode.readText
  */
 fun main() {
     val input = "camel-cards.txt".readLines()
-
-    println("Day 7: Camel Cards")
-    println("Part I: What are the total winnings? ${partI(input)}")
-    println("Part II: What are the new total winnings? ${partII(input)}")
+    printSolution(
+        7,
+        "Camel Cards",
+        "What are the total winnings? ${partI(input)}",
+        "What are the new total winnings? ${partII(input)}",
+    )
 }
 
 fun partI(lines: List<String>): Int {

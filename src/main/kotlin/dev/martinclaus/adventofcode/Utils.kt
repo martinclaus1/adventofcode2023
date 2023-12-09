@@ -6,3 +6,10 @@ fun readText(filename: String): String {
 }
 
 fun String.readLines(): List<String> = classLoader.getResource(this)?.readText()?.lines().orEmpty()
+
+fun printSolution(
+    day: Int,
+    description: String,
+    partI: String,
+    partII: String
+) = println(buildString { append("Day $day: $description\nPart I: $partI\nPart II: $partII") })
