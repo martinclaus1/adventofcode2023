@@ -1,52 +1,26 @@
 package dev.martinclaus.adventofcode.day3
 
-import dev.martinclaus.adventofcode.readText
-import kotlin.test.assertEquals
+import dev.martinclaus.adventofcode.printSolution
+import dev.martinclaus.adventofcode.readLines
 
 /**
  * @see <a href="https://adventofcode.com/2023/day/3">Advent of Code 2023 Day 3</a>
  */
 fun main() {
-    val testInput1 = """
-        467..114..
-        ...*......
-        ..35..633.
-        ......#...
-        617*......
-        .....+.58.
-        ..592.....
-        ......755.
-        ...$.*....
-        .664.598..
-    """.trimIndent()
-    val testInput2 = """
-        .......5......
-        ..7*..*.......
-        ...*13*.......
-        .......15.....
-    """.trimIndent()
-    val input = readText("engine-schematic.txt")
-
-    assertEquals(4361, partI(testInput1))
-    val answer1 = partI(input)
-    assertEquals(550934, answer1)
-
-    println("Day 3: Gear Ratios")
-    println("Part I: What is the sum of the part numbers? $answer1")
-
-    assertEquals(442, partII(testInput2))
-    val answer2 = partII(input)
-    assertEquals(81997870, answer2)
-
-    println("Part II: What is the sum of the gears? $answer2")
+    val input = "engine-schematic.txt".readLines()
+    printSolution(
+        3,
+        "Gear Ratios",
+        "What is the sum of the part numbers? ${partI(input)}",
+        "What is the sum of the gears? ${partII(input)}",
+    )
 }
 
 private val numberPattern = "\\d+".toRegex().toPattern()
 private val charPattern = "[^.0-9]".toRegex().toPattern()
 private val asteriskPattern = "\\*".toRegex().toPattern()
 
-private fun partI(schematic: String): Int {
-    val lines = schematic.lines()
+fun partI(lines: List<String>): Int {
     val numbers = getNumbers(lines)
     val chars = getCharacters(lines)
 
@@ -64,8 +38,7 @@ private fun partI(schematic: String): Int {
     return result
 }
 
-private fun partII(schematic: String): Int {
-    val lines = schematic.lines()
+fun partII(lines: List<String>): Int {
     val numbers = getNumbers(lines)
     val asterisks = lines.map { line ->
         asteriskPattern.matcher(line).results().map { it.start() }.toList().toSet()

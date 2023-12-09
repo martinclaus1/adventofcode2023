@@ -2,7 +2,6 @@ package dev.martinclaus.adventofcode.day7
 
 import dev.martinclaus.adventofcode.printSolution
 import dev.martinclaus.adventofcode.readLines
-import dev.martinclaus.adventofcode.readText
 
 /**
  * @see <a href="https://adventofcode.com/2023/day/7">Advent of Code 2023 Day 7</a>
