@@ -1,54 +1,31 @@
 package dev.martinclaus.adventofcode.day7
 
+import dev.martinclaus.adventofcode.readLines
 import dev.martinclaus.adventofcode.readText
-import kotlin.test.assertEquals
 
 /**
  * @see <a href="https://adventofcode.com/2023/day/7">Advent of Code 2023 Day 7</a>
  */
 fun main() {
-    val testInput = """
-        32T3K 765
-        T55J5 684
-        KK677 28
-        KTJJT 220
-        QQQJA 483
-    """.trimIndent()
-
-    val testInput2 = """
-        32T3K 765
-        T55J5 684
-        KK677 28
-        KTJJT 220
-        QQQJA 483
-    """.trimIndent()
-    val input = readText("camel-cards.txt")
-
-    assertEquals(6440, partI(testInput))
-    val answer1 = partI(input)
-    assertEquals(251545216, answer1)
+    val input = "camel-cards.txt".readLines()
 
     println("Day 7: Camel Cards")
-    println("Part I: What are the total winnings? $answer1")
-
-    assertEquals(5905, partII(testInput2))
-    val answer2 = partII(input)
-    assertEquals(250384185, answer2)
-
-    println("Part II: What are the new total winnings? $answer2")
+    println("Part I: What are the total winnings? ${partI(input)}")
+    println("Part II: What are the new total winnings? ${partII(input)}")
 }
-private fun partI(input: String): Int {
-    val hands = getHands(input, cards, ::getType).sorted().reversed()
+
+fun partI(lines: List<String>): Int {
+    val hands = getHands(lines, cards, ::getType).sorted().reversed()
     return hands.mapIndexed { index, hand -> (index + 1) * hand.bid }.sum()
 }
 
-fun partII(input: String): Int {
-    val hands = getHands(input, cards2, ::findBestType).sorted().reversed()
+fun partII(lines: List<String>): Int {
+    val hands = getHands(lines, cards2, ::findBestType).sorted().reversed()
     return hands.mapIndexed { index, hand -> (index + 1) * hand.bid }.sum()
 }
 
-private fun getHands(input: String, cardRanking: Set<Char>, calculateCardType: (String) -> CardType): List<Hand> =
-    input.split("\n").map {
+private fun getHands(lines: List<String>, cardRanking: Set<Char>, calculateCardType: (String) -> CardType): List<Hand> =
+    lines.map {
         val (hand, bid) = it.split(" ", limit = 2)
         Hand(
             cards = hand.trim(),

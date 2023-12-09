@@ -1,12 +1,12 @@
 package dev.martinclaus.adventofcode.day8
 
+import dev.martinclaus.adventofcode.readLines
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
-import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class HauntedWastelandTest {
@@ -18,24 +18,12 @@ class HauntedWastelandTest {
         assertEquals(expected, actual)
     }
 
-    @Test
-    fun `check part II`() {
-        val input = """
-        LR
-        
-        11A = (11B, XXX)
-        11B = (XXX, 11Z)
-        11Z = (11B, XXX)
-        22A = (22B, XXX)
-        22B = (22C, 22C)
-        22C = (22Z, 22Z)
-        22Z = (22B, 22B)
-        XXX = (XXX, XXX)
-        """.trimIndent().lines()
-
+    @ParameterizedTest
+    @ArgumentsSource(PartIIArgumentsProvider::class)
+    fun `check part II`(input: List<String>, expected: Long) {
         val actual = partII(input)
 
-        assertEquals(6, actual)
+        assertEquals(expected, actual)
     }
 }
 
@@ -64,6 +52,31 @@ class PartIArgumentsProvider : ArgumentsProvider {
             ZZZ = (ZZZ, ZZZ)
             """.trimIndent().lines(),
             6
+        ),
+        Arguments.of(
+            "haunted-wasteland.txt".readLines(),
+            12599
         )
+    )
+}
+
+class PartIIArgumentsProvider : ArgumentsProvider {
+    override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
+        Arguments.of(
+            """
+            LR
+            
+            11A = (11B, XXX)
+            11B = (XXX, 11Z)
+            11Z = (11B, XXX)
+            22A = (22B, XXX)
+            22B = (22C, 22C)
+            22C = (22Z, 22Z)
+            22Z = (22B, 22B)
+            XXX = (XXX, XXX)
+            """.trimIndent().lines(),
+            6
+        ),
+        Arguments.of("haunted-wasteland.txt".readLines(), 8245452805243)
     )
 }

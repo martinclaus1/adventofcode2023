@@ -2,7 +2,9 @@ package dev.martinclaus.adventofcode.day8
 
 import dev.martinclaus.adventofcode.readLines
 
-private val pattern = "([A-Z0-9]+)".toRegex().toPattern()
+/**
+ * @see <a href="https://adventofcode.com/2023/day/8">Advent of Code 2023 Day 8</a>
+ */
 fun main() {
     val input = "haunted-wasteland.txt".readLines()
 
@@ -10,6 +12,9 @@ fun main() {
     println("Part I: How many steps are required to reach ZZZ? ${partI(input)}")
     println("Part II: How many steps does it take before you're only on nodes that end with Z? ${partII(input)}")
 }
+
+
+private val pattern = "([A-Z0-9]+)".toRegex().toPattern()
 
 fun partI(lines: List<String>): Int {
     val steps = lines.first()
