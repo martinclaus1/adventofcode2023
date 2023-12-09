@@ -1,5 +1,6 @@
 package dev.martinclaus.adventofcode.day1
 
+import dev.martinclaus.adventofcode.readLines
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -9,48 +10,33 @@ import java.util.stream.Stream
 import kotlin.test.assertEquals
 
 class TrebuchetTest {
-    private val calibrator = Trebuchet()
-
     @ParameterizedTest
-    @ArgumentsSource(CalibrationTestProvider::class)
-    fun `check that calibration works`(input: String, expected: Int) {
-        val result = calibrator.partII(input)
+    @ArgumentsSource(PartIIArgumentsProvider::class)
+    fun `check part II`(input: List<String>, expected: Int) {
+        val actual = partII(input)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
+
 }
 
-class CalibrationTestProvider : ArgumentsProvider {
-    override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
-        return Stream.of(
-            getTestCase(
-                input = """
-                    two1nine
-                    eightwothree
-                    abcone2threexyz
-                    xtwone3four
-                    4nineeightseven2
-                    zoneight234
-                    7pqrstsixteen
-                """.trimIndent(),
-                expected = 281
-            ),
-            getTestCase(
-                input = """
-                    1abc2
-                    pqr3stu8vwx
-                    a1b2c3d4e5f
-                    treb7uchet
-                """.trimIndent(),
-                expected = 142
-            ),
-            getTestCase("123", 13),
-            getTestCase("1", 11),
-            getTestCase("", 0),
-            getTestCase("8threesevenfourgbgteight5twonenjr", 81),
-            getTestCase("8threesevenfourgbgteight5twonenjrseven", 87),
+class PartIIArgumentsProvider : ArgumentsProvider {
+    override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
+        Arguments.of(
+            """
+            two1nine
+            eightwothree
+            abcone2threexyz
+            xtwone3four
+            4nineeightseven2
+            zoneight234
+            7pqrstsixteen
+            """.trimIndent().lines(),
+            281
+        ),
+        Arguments.of(
+            "trebuchet.txt".readLines(),
+            54094
         )
-    }
-
-    private fun getTestCase(input: String, expected: Int) = Arguments.of(input, expected)
+    )
 }
