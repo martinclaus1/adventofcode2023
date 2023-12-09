@@ -30,11 +30,11 @@ class GreenhouseTest {
 class PartIArgumentsProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
         Arguments.of(
-            "almanac-test.txt".readLines(),
+            "greenhouse-test.txt".readLines(),
             35L
         ),
         Arguments.of(
-            "almanac.txt".readLines(),
+            "greenhouse.txt".readLines(),
             226172555L
         )
     )
@@ -43,11 +43,11 @@ class PartIArgumentsProvider : ArgumentsProvider {
 class PartIIArgumentsProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
         Arguments.of(
-            "almanac-test.txt".readLines(),
+            "greenhouse-test.txt".readLines(),
             46L
         ),
         Arguments.of(
-            "almanac.txt".readLines(),
+            "greenhouse.txt".readLines(),
             47909639L
         )
     )

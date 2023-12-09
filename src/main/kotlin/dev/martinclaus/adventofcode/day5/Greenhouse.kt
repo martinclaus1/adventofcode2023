@@ -7,7 +7,7 @@ import dev.martinclaus.adventofcode.readLines
  * @see <a href="https://adventofcode.com/2023/day/5">Advent of Code 2023 Day 5</a>
  */
 fun main() {
-    val input = "almanac.txt".readLines()
+    val input = "greenhouse.txt".readLines()
     printSolution(
         5,
         "If You Give A Seed A Fertilizer",
